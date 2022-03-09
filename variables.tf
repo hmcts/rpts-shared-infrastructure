@@ -14,7 +14,7 @@ variable "location" {
 }
 
 variable "managed_identity_object_id" {
-  default = map(string)
+  default = map("")
 }
 
 variable "jenkins_AAD_objectId" {
