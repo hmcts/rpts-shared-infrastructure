@@ -1,6 +1,6 @@
 
 variable "common_tags" {
-  type = "map"
+  type = map(string)
 }
 
 variable "product" {
