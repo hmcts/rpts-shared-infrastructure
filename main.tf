@@ -88,3 +88,48 @@ output "storage_account_primary_key" {
   sensitive = true
   value     = azurerm_storage_account.storage_account.primary_access_key
 }
+
+resource "azurerm_key_vault_secret" "POSTGRES-USER" {
+  name         = "api-POSTGRES-USER"
+  value        = module.rpts-database.user_name
+  key_vault_id = data.azurerm_key_vault.rpts_key_vault.id
+}
+
+resource "azurerm_key_vault_secret" "POSTGRES-PASS" {
+  name         = "api-POSTGRES-PASS"
+  value        = module.rpts-database.postgresql_password
+  key_vault_id = data.azurerm_key_vault.rpts_key_vault.id
+}
+
+resource "azurerm_key_vault_secret" "POSTGRES_HOST" {
+  name         = "api-POSTGRES-HOST"
+  value        = module.rpts-database.host_name
+  key_vault_id = data.azurerm_key_vault.rpts_key_vault.id
+}
+
+resource "azurerm_key_vault_secret" "POSTGRES_PORT" {
+  name         = "api-POSTGRES-PORT"
+  value        = module.rpts-database.postgresql_listen_port
+  key_vault_id = data.azurerm_key_vault.rpts_key_vault.id
+}
+
+resource "azurerm_key_vault_secret" "POSTGRES_DATABASE" {
+  name         = "api-POSTGRES-DATABASE"
+  value        = module.rpts-database.postgresql_database
+  key_vault_id = data.azurerm_key_vault.rpts_key_vault.id
+}
+
+module "rpts-database" {
+  source             = "git@github.com:hmcts/cnp-module-postgres?ref=master"
+  product            = var.product
+  location           = var.location
+  env                = var.env
+  postgresql_user    = "rpts"
+  database_name      = "rpts"
+  postgresql_version = "11"
+  sku_name           = "GP_Gen5_2"
+  sku_tier           = "GeneralPurpose"
+  storage_mb         = "51200"
+  common_tags        = var.common_tags
+  subscription       = var.subscription
+}
