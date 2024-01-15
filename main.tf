@@ -35,9 +35,10 @@ resource "azurerm_key_vault_secret" "AZURE_APPINSIGHTS_KEY" {
 module "application_insights" {
   source = "git@github.com:hmcts/terraform-module-application-insights?ref=main"
 
-  env     = var.env
-  product = var.product
-  name    = "${var.product}-appinsights"
+  env      = var.env
+  product  = var.product
+  name     = "${var.product}-appinsights"
+  location = var.appinsights_location
 
   resource_group_name = azurerm_resource_group.rg.name
 
