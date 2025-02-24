@@ -8,10 +8,6 @@ metadata:
     github.com/project-slug: hmcts/rpts-shared-infrastructure
   tags:
     - terraform
-  links:
-    - url: https://hmcts-reform.slack.com/app_redirect?channel=fact-tech
-      title: "#fact-tech on Slack"
-      icon: chat
 spec:
   type: service
   lifecycle: production
