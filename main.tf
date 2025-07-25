@@ -26,6 +26,14 @@ module "key-vault" {
   product_group_name      = "DTS RPTS"
   common_tags             = var.common_tags
   create_managed_identity = true
+  
+  access_policies = [
+    {
+      tenant_id = var.tenant_id
+      object_id = var.jenkins_AAD_objectId
+      secret_permissions = ["get", "set", "list"]
+    }
+  ]
 }
 
 resource "azurerm_key_vault_secret" "AZURE_APPINSIGHTS_KEY" {
