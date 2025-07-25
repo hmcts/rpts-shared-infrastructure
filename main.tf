@@ -28,13 +28,12 @@ module "key-vault" {
   create_managed_identity = true
 }
 
-resource "azurerm_key_vault_secret" "AZURE_APPINSIGHTS_KEY" {
-  count        = contains(["aat", "demo"], var.env) ? 1 : 0
-  name         = "AppInsightsInstrumentationKey"
-  value        = module.application_insights[0].instrumentation_key
-  key_vault_id = module.key-vault[0].key_vault_id
-  depends_on   = [module.key-vault]
-}
+# resource "azurerm_key_vault_secret" "AZURE_APPINSIGHTS_KEY" {
+#   count        = contains(["aat", "demo"], var.env) ? 1 : 0
+#   name         = "AppInsightsInstrumentationKey"
+#   value        = module.application_insights[0].instrumentation_key
+#   key_vault_id = module.key-vault[0].key_vault_id
+# }
 
 module "application_insights" {
   count = contains(["aat", "demo"], var.env) ? 1 : 0
@@ -56,10 +55,9 @@ moved {
   to   = module.application_insights[0].azurerm_application_insights.this
 }
 
-resource "azurerm_key_vault_secret" "app_insights_connection_string" {
-  count        = contains(["aat", "demo"], var.env) ? 1 : 0
-  name         = "app-insights-connection-string"
-  value        = module.application_insights[0].connection_string
-  key_vault_id = module.key-vault[0].key_vault_id
-  depends_on   = [module.key-vault]
-}
+# resource "azurerm_key_vault_secret" "app_insights_connection_string" {
+#   count        = contains(["aat", "demo"], var.env) ? 1 : 0
+#   name         = "app-insights-connection-string"
+#   value        = module.application_insights[0].connection_string
+#   key_vault_id = module.key-vault[0].key_vault_id
+# }
