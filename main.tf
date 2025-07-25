@@ -49,8 +49,9 @@ module "application_insights" {
 
   common_tags = var.common_tags
 }
+
 moved {
-  from = azurerm_application_insights.appinsights
+  from = module.application_insights.azurerm_application_insights.this
   to   = module.application_insights[0].azurerm_application_insights.this
 }
 
