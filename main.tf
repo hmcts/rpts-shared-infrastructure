@@ -12,25 +12,25 @@ resource "azurerm_resource_group" "rg" {
   tags = var.common_tags
 }
 
-module "key-vault" {
-  source              = "git@github.com:hmcts/cnp-module-key-vault?ref=master"
-  product             = var.product
-  env                 = var.env
-  tenant_id           = var.tenant_id
-  object_id           = var.jenkins_AAD_objectId
-  resource_group_name = azurerm_resource_group.rg.name
+# module "key-vault" {
+#   source              = "git@github.com:hmcts/cnp-module-key-vault?ref=master"
+#   product             = var.product
+#   env                 = var.env
+#   tenant_id           = var.tenant_id
+#   object_id           = var.jenkins_AAD_objectId
+#   resource_group_name = azurerm_resource_group.rg.name
+#
+#   # dcd_platformengineering group object ID
+#   product_group_name      = "DTS RPTS"
+#   common_tags             = var.common_tags
+#   create_managed_identity = true
+# }
 
-  # dcd_platformengineering group object ID
-  product_group_name      = "DTS RPTS"
-  common_tags             = var.common_tags
-  create_managed_identity = true
-}
-
-resource "azurerm_key_vault_secret" "AZURE_APPINSIGHTS_KEY" {
-  name         = "AppInsightsInstrumentationKey"
-  value        = module.application_insights.instrumentation_key
-  key_vault_id = module.key-vault.key_vault_id
-}
+# resource "azurerm_key_vault_secret" "AZURE_APPINSIGHTS_KEY" {
+#   name         = "AppInsightsInstrumentationKey"
+#   value        = module.application_insights.instrumentation_key
+#   key_vault_id = module.key-vault.key_vault_id
+# }
 
 module "application_insights" {
   source = "git@github.com:hmcts/terraform-module-application-insights?ref=4.x"
@@ -49,8 +49,8 @@ moved {
   to   = module.application_insights.azurerm_application_insights.this
 }
 
-resource "azurerm_key_vault_secret" "app_insights_connection_string" {
-  name         = "app-insights-connection-string"
-  value        = module.application_insights.connection_string
-  key_vault_id = module.key-vault.key_vault_id
-}
+# resource "azurerm_key_vault_secret" "app_insights_connection_string" {
+#   name         = "app-insights-connection-string"
+#   value        = module.application_insights.connection_string
+#   key_vault_id = module.key-vault.key_vault_id
+# }
