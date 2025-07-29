@@ -37,7 +37,7 @@ resource "azurerm_key_vault_secret" "AZURE_APPINSIGHTS_KEY" {
 
 
 module "application_insights" {
-  count   = contains(["demo", "aat"], var.env) ? 1 : 0
+  count  = contains(["demo", "aat"], var.env) ? 1 : 0
   source = "git@github.com:hmcts/terraform-module-application-insights?ref=4.x"
 
   env      = var.env
@@ -54,9 +54,9 @@ moved {
   to   = module.application_insights[0].azurerm_application_insights.this
 }
 
- resource "azurerm_key_vault_secret" "app_insights_connection_string" {
-   count        = contains(["demo", "aat"], var.env) ? 1 : 0
-   name         = "app-insights-connection-string"
-   value        = module.application_insights[0].connection_string
-   key_vault_id = module.key-vault[0].key_vault_id
- }
+resource "azurerm_key_vault_secret" "app_insights_connection_string" {
+  count        = contains(["demo", "aat"], var.env) ? 1 : 0
+  name         = "app-insights-connection-string"
+  value        = module.application_insights[0].connection_string
+  key_vault_id = module.key-vault[0].key_vault_id
+}
