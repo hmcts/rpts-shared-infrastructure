@@ -6,4 +6,6 @@
 def product = 'rpts'
 
 withInfraPipeline(product) {
+    def branchesToSync = []
+    syncBranchesWithMaster(branchesToSync)
 }
