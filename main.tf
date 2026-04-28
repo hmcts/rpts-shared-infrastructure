@@ -6,7 +6,6 @@ locals {
 }
 
 data "azurerm_user_assigned_identity" "jenkins" {
-  count               = contains(["demo", "aat"], var.env) ? 1 : 0
   name                = "jenkins-${var.env}-mi"
   resource_group_name = "managed-identities-${var.env}-rg"
 }
@@ -26,7 +25,7 @@ module "key-vault" {
   env                 = var.env
   tenant_id           = var.tenant_id
   object_id           = var.jenkins_AAD_objectId
-  jenkins_object_id   = data.azurerm_user_assigned_identity.jenkins[0].principal_id
+  jenkins_object_id   = data.azurerm_user_assigned_identity.jenkins.principal_id
   resource_group_name = azurerm_resource_group.rg[0].name
 
   # dcd_platformengineering group object ID
